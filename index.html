@@ -13,71 +13,73 @@
         /* --- STYLE GLOBAL --- */
         body {
             margin: 0;
+            background-color: #e6edf2; 
+            font-family: 'Cormorant Garamond', serif; 
+            color: #3b505c;
+        }
+
+        /* ==========================================================
+           1. VERSION ORDINATEUR (Affichée par défaut, cachée sur mobile)
+           ================================================---------- */
+        #desktop-version {
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            background-color: #e6edf2; 
-            font-family: 'Cormorant Garamond', serif; 
-            overflow-x: hidden;
+            height: 100vh;
+            overflow: hidden;
         }
 
-        /* --- CONTENEUR DU TRIPTYQUE (Responsive) --- */
         .gatefold-wrapper {
             position: relative;
-            width: min(90vw, 400px);
-            height: min(90vw, 400px);
+            width: 400px;
+            height: 400px;
             perspective: 2000px;
             cursor: pointer;
             box-shadow: 0 15px 40px rgba(43, 65, 77, 0.25); 
         }
 
-        /* --- PAGE CENTRALE (Le fond) --- */
         .center-page {
             position: absolute;
             top: 0; left: 0;
             width: 100%; height: 100%;
             background-color: #ffffff;
             box-sizing: border-box;
-            padding: 12px; 
+            padding: 15px; 
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
-            color: #3b505c; 
             z-index: 1;
             box-shadow: inset 0 0 40px rgba(0,0,0,0.04);
-            overflow-y: auto; /* Permet de scroller si l'écran est très petit */
         }
 
         .center-page .names { 
             margin: 0px 0; 
-            font-size: clamp(22px, 6vw, 28px); 
+            font-size: 28px; 
             color: #638ca3; 
             font-family: 'Great Vibes', cursive; 
             font-weight: normal;
             line-height: 1.1;
         }
         .center-page h3.date {
-            margin: 4px 0;
-            font-size: clamp(14px, 4vw, 18px);
+            margin: 5px 0;
+            font-size: 18px;
             color: #638ca3;
             font-weight: 600;
         }
-        .center-page hr { width: 50px; border: 0.5px solid #a3bccc; margin: 6px 0; }
-        .center-page p { margin: 3px 0; font-size: clamp(12px, 3.5vw, 15px); line-height: 1.2; }
+        .center-page hr { width: 60px; border: 0.5px solid #a3bccc; margin: 8px 0; }
+        .center-page p { margin: 4px 0; font-size: 15px; line-height: 1.2; }
 
-        /* --- LE CARTON D'INVITATION --- */
         .insert-card {
             position: absolute;
             left: 9%; 
-            bottom: -30px; 
+            bottom: -35px; 
             width: 82%; 
             background-color: #ffffff; 
             border: 1px solid #b5cadd; 
             outline: 1px solid #b5cadd;
-            outline-offset: -4px;
-            padding: 15px 10px; 
+            outline-offset: -5px;
+            padding: 20px 15px; 
             box-sizing: border-box;
             box-shadow: 0 12px 30px rgba(43, 65, 77, 0.2); 
             z-index: 4; 
@@ -85,25 +87,15 @@
             transform: translateY(30px) rotate(0deg);
             transition: transform 0.8s ease-out, opacity 0.8s ease-out;
             text-align: center;
-
             cursor: grab;
             touch-action: none; 
             user-select: none;
             pointer-events: none; 
         }
 
-        .insert-card h4 { 
-            margin: 0 0 8px 0; 
-            font-size: 12px; 
-            color: #4a6b82; 
-            text-transform: uppercase; 
-            letter-spacing: 2px; 
-            font-weight: 600;
-        }
-        
         .insert-card p { 
             margin: 0; 
-            font-size: clamp(12px, 3.5vw, 14px); 
+            font-size: 15px; 
             color: #556a77; 
             font-style: italic; 
             line-height: 1.3;
@@ -111,7 +103,7 @@
 
         .gatefold-wrapper.open .insert-card {
             opacity: 1;
-            transform: translateY(-20px) rotate(-1.5deg);
+            transform: translateY(-25px) rotate(-1.5deg);
             transition-delay: 0.6s;
             pointer-events: auto;
         }
@@ -122,7 +114,6 @@
             box-shadow: 0 18px 40px rgba(43, 65, 77, 0.3);
         }
 
-        /* --- LES VOLETS (Portes) --- */
         .flap {
             position: absolute;
             top: 0;
@@ -139,7 +130,6 @@
         .gatefold-wrapper.open .left-flap { transform: rotateY(-180deg); }
         .gatefold-wrapper.open .right-flap { transform: rotateY(180deg); }
 
-        /* --- DEVANT ET DOS DES VOLETS --- */
         .flap-front, .flap-back {
             position: absolute;
             top: 0; left: 0;
@@ -155,14 +145,13 @@
             align-items: center;
             color: white;
             background-image: url('./Chateau-Barbebelle.jpg');
-            background-size: min(90vw, 400px) min(90vw, 400px);
+            background-size: 400px 400px;
             background-repeat: no-repeat;
         }
 
         .left-flap .flap-front { background-position: left center; border-right: 1px solid rgba(255,255,255,0.2); }
         .right-flap .flap-front { background-position: right center; }
 
-        /* Dégradé assombri et optimisé pour le contraste */
         .flap-front::before {
             content: '';
             position: absolute;
@@ -172,124 +161,256 @@
         }
 
         .left-flap .flap-front h1 { 
-            font-size: clamp(32px, 9vw, 44px); 
+            font-size: 44px; 
             margin: 0; 
-            margin-left: 10px; 
+            margin-left: 15px; 
             font-family: 'Great Vibes', cursive;
             font-weight: normal;
             text-shadow: 2px 2px 10px rgba(0,0,0,0.85); 
             line-height: 1.1;
-            text-align: center;
         }
         
         .right-flap .flap-front .cover-date { 
-            font-size: clamp(20px, 6vw, 26px); 
+            font-size: 26px; 
             font-family: 'Great Vibes', cursive; 
             margin: 0; 
-            margin-right: 10px; 
-            letter-spacing: 1px; 
+            margin-right: 15px; 
             text-shadow: 2px 2px 8px rgba(0,0,0,0.9); 
             text-align: center;
             color: #f0f4f8;
         }
         
         .right-flap .flap-front .click-hint {
-            font-size: clamp(10px, 3vw, 12px);
+            font-size: 12px;
             font-style: italic;
             letter-spacing: 1.5px;
             color: #ffffff;
-            margin-top: 15px;
-            padding: 5px 12px;
+            margin-top: 20px;
+            padding: 6px 14px;
             border: 1px solid rgba(255, 255, 255, 0.4);
             border-radius: 20px;
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(4px);
             text-shadow: 1px 1px 4px rgba(0,0,0,0.8);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
 
         .flap-back {
             background-color: #ffffff;
             transform: rotateY(180deg);
-            padding: 12px;
+            padding: 15px;
             text-align: left;
             display: flex;
             flex-direction: column;
             justify-content: center;
             color: #3b505c;
             border: 1px solid #e6edf2;
-            overflow-y: auto;
         }
         
-        .flap-back h3 { color: #638ca3; font-style: italic; font-size: clamp(16px, 4vw, 20px); margin-bottom: 8px; font-weight: normal; text-align: center; }
-        .flap-back p { font-size: clamp(11px, 3.2vw, 14px); margin: 2px 0; }
-        
-        .parents-text p { font-size: clamp(10px, 3vw, 13px); margin: 1px 0; }
-        .parents-text .spacer { height: 8px; }
+        .flap-back h3 { color: #638ca3; font-style: italic; font-size: 20px; margin-bottom: 10px; font-weight: normal; text-align: center; }
+        .flap-back p { font-size: 14px; margin: 2px 0; }
+        .parents-text p { font-size: 13px; margin: 1px 0; }
+        .parents-text .spacer { height: 10px; }
 
+
+        /* ==========================================================
+           2. VERSION TÉLÉPHONE (Cachée par défaut, affichée sur mobile)
+           ================================================---------- */
+        #mobile-version {
+            display: none;
+            padding: 20px 15px;
+            max-width: 450px;
+            margin: 0 auto;
+        }
+
+        .mobile-card {
+            background: #ffffff;
+            border-radius: 8px;
+            padding: 25px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 25px rgba(43, 65, 77, 0.15);
+            text-align: center;
+            border: 1px solid #b5cadd;
+            outline: 1px solid #b5cadd;
+            outline-offset: -5px;
+        }
+
+        .mobile-header-img {
+            width: 100%;
+            height: 220px;
+            background-image: url('./Chateau-Barbebelle.jpg');
+            background-size: cover;
+            background-position: center;
+            border-radius: 6px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .mobile-header-img::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(15, 25, 35, 0.45);
+            border-radius: 6px;
+        }
+
+        .mobile-header-img h1 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 42px;
+            margin: 0;
+            z-index: 1;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
+        }
+
+        .mobile-header-img p {
+            font-family: 'Great Vibes', cursive;
+            font-size: 24px;
+            margin: 5px 0 0 0;
+            z-index: 1;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
+            color: #f0f4f8;
+        }
+
+        .mobile-card h2 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 32px;
+            color: #638ca3;
+            margin: 10px 0;
+        }
+
+        .mobile-card h3 {
+            font-size: 16px;
+            color: #638ca3;
+            font-weight: 600;
+            margin: 10px 0;
+        }
+
+        .mobile-card p {
+            font-size: 15px;
+            line-height: 1.4;
+            margin: 8px 0;
+        }
+
+        .mobile-card hr {
+            width: 50px;
+            border: 0.5px solid #a3bccc;
+            margin: 15px auto;
+        }
+
+        /* --- MEDIA QUERY : Bascule automatique si l'écran fait moins de 768px --- */
+        @media screen and (max-width: 768px) {
+            #desktop-version {
+                display: none !important;
+            }
+            #mobile-version {
+                display: block !important;
+            }
+        }
     </style>
 </head>
 <body>
 
-    <div class="gatefold-wrapper" id="invitation">
-        
-        <div class="center-page">
-            <p>sont heureux de vous faire part du mariage de leurs enfants</p>
-            <hr>
-            <h3 class="names">Mademoiselle Blandine Gautier<br> &amp; <br> Monsieur Thomas Jégat</h3>
-            <hr>
-            <p>Ils vous prient d'assister ou de vous unir par la prière à la messe de mariage qui sera célébrée le</p>
-            <h3 class="date">Samedi 5 juin 2027 à 15h00</h3>
-            <p>En l'église Notre-Dame de l’Assomption de Lambesc (13)</p>
-            <p>Le consentement des époux sera reçu par Monsieur l'abbé Arnaud Spriet, aumônier du lycée militaire d'Aix-en-Provence.</p>
-        </div>
-
-        <div class="insert-card" id="insertCard">
-            <p>recevront à l'issue de la cérémonie religieuse au domaine de Barbebelle (Rognes)</p>
-            <br>
-            <p><strong>Cocktail de 18h à 20h <br> Diner placé</strong></p>
-            <br>
-            <p>Réponse souhaitée avant le 20 avril</p>
-        </div>
-
-        <div class="flap left-flap">
-            <div class="flap-front">
-                <h1>Blandine<br>& Thomas</h1>
+    <div id="desktop-version">
+        <div class="gatefold-wrapper" id="invitation">
+            <div class="center-page">
+                <p>sont heureux de vous faire part du mariage de leurs enfants</p>
+                <hr>
+                <h3 class="names">Mademoiselle Blandine Gautier<br> &amp; <br> Monsieur Thomas Jégat</h3>
+                <hr>
+                <p>Ils vous prient d'assister ou de vous unir par la prière à la messe de mariage qui sera célébrée le</p>
+                <h3 class="date">Samedi 5 juin 2027 à 15h00</h3>
+                <p>En l'église Notre-Dame de l’Assomption de Lambesc (13)</p>
+                <p>Le consentement des époux sera reçu par Monsieur l'abbé Arnaud Spriet, aumônier du lycée militaire d'Aix-en-Provence.</p>
             </div>
-            <div class="flap-back parents-text">
-                <p>Monsieur Hervé Gautier</p>
-                <p>Madame Valérie Cornuez</p>
-                <div class="spacer"></div>
-                <p>Adresse de Valoche</p>
-                <p>email de Valoche</p>
-                <div class="spacer"></div>
-                <hr style="width: 30px; border: 0.5px solid #a3bccc; margin: 8px auto;">
-                <div class="spacer"></div>
-                <p>Monsieur et Madame</p>
-                <p>Stéphane Jégat</p>
-                <div class="spacer"></div>
-                <p>9 allée du Tamisadou<br>13300 Salon-de-Provence</p>
-                <p>anne.jegat@orange.fr</p>
+
+            <div class="insert-card" id="insertCard">
+                <p>recevront à l'issue de la cérémonie religieuse au domaine de Barbebelle (Rognes)</p>
+                <br>
+                <p><strong>Cocktail de 18h à 20h <br> Dîner placé</strong></p>
+                <br>
+                <p>Réponse souhaitée avant le 20 avril</p>
+            </div>
+
+            <div class="flap left-flap">
+                <div class="flap-front">
+                    <h1>Blandine<br>& Thomas</h1>
+                </div>
+                <div class="flap-back parents-text">
+                    <p>Monsieur Hervé Gautier</p>
+                    <p>Madame Valérie Cornuez</p>
+                    <div class="spacer"></div>
+                    <p>Adresse de Valoche</p>
+                    <p>email de Valoche</p>
+                    <div class="spacer"></div>
+                    <hr style="width: 30px; border: 0.5px solid #a3bccc; margin: 10px auto;">
+                    <div class="spacer"></div>
+                    <p>Monsieur et Madame</p>
+                    <p>Stéphane Jégat</p>
+                    <div class="spacer"></div>
+                    <p>9 allée du Tamisadou<br>13300 Salon-de-Provence</p>
+                    <p>anne.jegat@orange.fr</p>
+                </div>
+            </div>
+
+            <div class="flap right-flap">
+                <div class="flap-front">
+                    <p class="cover-date">5 Juin 2027</p>
+                    <div class="click-hint">Cliquez pour ouvrir</div>
+                </div>
+                <div class="flap-back">
+                    <h3>La Réception</h3>
+                    <p><strong>18h00-20h00</strong></p>
+                    <p>Cocktail</p>
+                    <p><strong>20h00 - 22h30</strong></p>
+                    <p>Dîner placé</p>
+                    <p><strong>A partir de 22h30</strong></p>
+                    <p>Soirée dansante</p>
+                </div>
             </div>
         </div>
-
-        <div class="flap right-flap">
-            <div class="flap-front">
-                <p class="cover-date">5 Juin 2027</p>
-                <div class="click-hint">Cliquez pour ouvrir</div>
-            </div>
-            <div class="flap-back">
-                <h3>La Réception</h3>
-                <p><strong>18h00-20h00</strong></p>
-                <p>Cocktail</p>
-                <p><strong>20h00 - 22h30</strong></p>
-                <p>Dîner placé</p>
-                <p><strong>A partir de 22h30</strong></p>
-                <p>Soirée dansante</p>
-            </div>
-        </div>
-
     </div>
+
+
+    <div id="mobile-version">
+        <div class="mobile-card">
+            <div class="mobile-header-img">
+                <h1>Blandine & Thomas</h1>
+                <p>5 Juin 2027</p>
+            </div>
+            <p>Sont heureux de vous faire part du mariage de leurs enfants</p>
+        </div>
+
+        <div class="mobile-card">
+            <h3>Familles</h3>
+            <p>Monsieur Hervé Gautier<br>Madame Valérie Cornuez</p>
+            <p style="font-size: 13px; color: #7892a2;">Adresse de Valoche • email de Valoche</p>
+            <hr>
+            <p>Monsieur et Madame Stéphane Jégat<br>9 allée du Tamisadou, 13300 Salon-de-Provence<br>anne.jegat@orange.fr</p>
+        </div>
+
+        <div class="mobile-card">
+            <h3>Cérémonie Religieuse</h3>
+            <p>Célébrée le <strong>Samedi 5 juin 2027 à 15h00</strong></p>
+            <p>En l'église Notre-Dame de l’Assomption de Lambesc (13)</p>
+            <p style="font-size: 13px; font-style: italic; color: #556a77; margin-top: 10px;">Le consentement des époux sera reçu par Monsieur l'abbé Arnaud Spriet, aumônier du lycée militaire d'Aix-en-Provence.</p>
+        </div>
+
+        <div class="mobile-card">
+            <h3>La Réception</h3>
+            <p>À l'issue de la cérémonie au domaine de Barbebelle (Rognes)</p>
+            <hr>
+            <p><strong>18h00 - 20h00 :</strong> Cocktail</p>
+            <p><strong>20h00 - 22h30 :</strong> Dîner placé</p>
+            <p><strong>À partir de 22h30 :</strong> Soirée dansante</p>
+            <hr>
+            <p style="font-weight: 600; color: #638ca3;">Réponse souhaitée avant le 20 avril</p>
+        </div>
+    </div>
+
 
     <script>
         const invitation = document.getElementById('invitation');
