@@ -16,17 +16,17 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             background-color: #e6edf2; 
             font-family: 'Cormorant Garamond', serif; 
-            overflow: hidden;
+            overflow-x: hidden;
         }
 
-        /* --- CONTENEUR DU TRIPTYQUE --- */
+        /* --- CONTENEUR DU TRIPTYQUE (Responsive) --- */
         .gatefold-wrapper {
             position: relative;
-            width: 400px;
-            height: 400px;
+            width: min(90vw, 400px);
+            height: min(90vw, 400px);
             perspective: 2000px;
             cursor: pointer;
             box-shadow: 0 15px 40px rgba(43, 65, 77, 0.25); 
@@ -39,7 +39,7 @@
             width: 100%; height: 100%;
             background-color: #ffffff;
             box-sizing: border-box;
-            padding: 15px 15px; 
+            padding: 12px; 
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -47,36 +47,37 @@
             color: #3b505c; 
             z-index: 1;
             box-shadow: inset 0 0 40px rgba(0,0,0,0.04);
+            overflow-y: auto; /* Permet de scroller si l'écran est très petit */
         }
 
         .center-page .names { 
             margin: 0px 0; 
-            font-size: 28px; 
+            font-size: clamp(22px, 6vw, 28px); 
             color: #638ca3; 
             font-family: 'Great Vibes', cursive; 
             font-weight: normal;
             line-height: 1.1;
         }
         .center-page h3.date {
-            margin: 5px 0;
-            font-size: 18px;
+            margin: 4px 0;
+            font-size: clamp(14px, 4vw, 18px);
             color: #638ca3;
             font-weight: 600;
         }
-        .center-page hr { width: 60px; border: 0.5px solid #a3bccc; margin: 8px 0; }
-        .center-page p { margin: 4px 0; font-size: 15px; line-height: 1.2; }
+        .center-page hr { width: 50px; border: 0.5px solid #a3bccc; margin: 6px 0; }
+        .center-page p { margin: 3px 0; font-size: clamp(12px, 3.5vw, 15px); line-height: 1.2; }
 
         /* --- LE CARTON D'INVITATION --- */
         .insert-card {
             position: absolute;
             left: 9%; 
-            bottom: -35px; 
+            bottom: -30px; 
             width: 82%; 
             background-color: #ffffff; 
             border: 1px solid #b5cadd; 
             outline: 1px solid #b5cadd;
-            outline-offset: -5px;
-            padding: 20px 15px; 
+            outline-offset: -4px;
+            padding: 15px 10px; 
             box-sizing: border-box;
             box-shadow: 0 12px 30px rgba(43, 65, 77, 0.2); 
             z-index: 4; 
@@ -92,8 +93,8 @@
         }
 
         .insert-card h4 { 
-            margin: 0 0 10px 0; 
-            font-size: 13px; 
+            margin: 0 0 8px 0; 
+            font-size: 12px; 
             color: #4a6b82; 
             text-transform: uppercase; 
             letter-spacing: 2px; 
@@ -102,7 +103,7 @@
         
         .insert-card p { 
             margin: 0; 
-            font-size: 15px; 
+            font-size: clamp(12px, 3.5vw, 14px); 
             color: #556a77; 
             font-style: italic; 
             line-height: 1.3;
@@ -110,7 +111,7 @@
 
         .gatefold-wrapper.open .insert-card {
             opacity: 1;
-            transform: translateY(-25px) rotate(-1.5deg);
+            transform: translateY(-20px) rotate(-1.5deg);
             transition-delay: 0.6s;
             pointer-events: auto;
         }
@@ -154,7 +155,7 @@
             align-items: center;
             color: white;
             background-image: url('./Chateau-Barbebelle.jpg');
-            background-size: 400px 400px;
+            background-size: min(90vw, 400px) min(90vw, 400px);
             background-repeat: no-repeat;
         }
 
@@ -171,21 +172,21 @@
         }
 
         .left-flap .flap-front h1 { 
-            font-size: 44px; 
+            font-size: clamp(32px, 9vw, 44px); 
             margin: 0; 
-            margin-left: 15px; 
+            margin-left: 10px; 
             font-family: 'Great Vibes', cursive;
             font-weight: normal;
             text-shadow: 2px 2px 10px rgba(0,0,0,0.85); 
             line-height: 1.1;
+            text-align: center;
         }
         
-        /* VOLET DROIT : VISIBILITÉ AMÉLIORÉE */
         .right-flap .flap-front .cover-date { 
-            font-size: 26px; /* Agrandi */
-            font-family: 'Great Vibes', cursive; /* Rendu plus élégant et visible */
+            font-size: clamp(20px, 6vw, 26px); 
+            font-family: 'Great Vibes', cursive; 
             margin: 0; 
-            margin-right: 15px; 
+            margin-right: 10px; 
             letter-spacing: 1px; 
             text-shadow: 2px 2px 8px rgba(0,0,0,0.9); 
             text-align: center;
@@ -193,12 +194,12 @@
         }
         
         .right-flap .flap-front .click-hint {
-            font-size: 12px;
+            font-size: clamp(10px, 3vw, 12px);
             font-style: italic;
             letter-spacing: 1.5px;
             color: #ffffff;
-            margin-top: 20px;
-            padding: 6px 14px;
+            margin-top: 15px;
+            padding: 5px 12px;
             border: 1px solid rgba(255, 255, 255, 0.4);
             border-radius: 20px;
             background: rgba(255, 255, 255, 0.1);
@@ -210,20 +211,21 @@
         .flap-back {
             background-color: #ffffff;
             transform: rotateY(180deg);
-            padding: 15px;
+            padding: 12px;
             text-align: left;
             display: flex;
             flex-direction: column;
             justify-content: center;
             color: #3b505c;
             border: 1px solid #e6edf2;
+            overflow-y: auto;
         }
         
-        .flap-back h3 { color: #638ca3; font-style: italic; font-size: 20px; margin-bottom: 10px; font-weight: normal; text-align: center; }
-        .flap-back p { font-size: 14px; margin: 2px 0; }
+        .flap-back h3 { color: #638ca3; font-style: italic; font-size: clamp(16px, 4vw, 20px); margin-bottom: 8px; font-weight: normal; text-align: center; }
+        .flap-back p { font-size: clamp(11px, 3.2vw, 14px); margin: 2px 0; }
         
-        .parents-text p { font-size: 13px; margin: 1px 0; }
-        .parents-text .spacer { height: 10px; }
+        .parents-text p { font-size: clamp(10px, 3vw, 13px); margin: 1px 0; }
+        .parents-text .spacer { height: 8px; }
 
     </style>
 </head>
@@ -261,7 +263,7 @@
                 <p>Adresse de Valoche</p>
                 <p>email de Valoche</p>
                 <div class="spacer"></div>
-                <hr style="width: 30px; border: 0.5px solid #a3bccc; margin: 10px auto;">
+                <hr style="width: 30px; border: 0.5px solid #a3bccc; margin: 8px auto;">
                 <div class="spacer"></div>
                 <p>Monsieur et Madame</p>
                 <p>Stéphane Jégat</p>
