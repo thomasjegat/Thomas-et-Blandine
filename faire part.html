@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faire-Part - Blandine & Thomas</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Great+Vibes&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- STYLE GLOBAL --- */
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #e6edf2; 
+            font-family: 'Cormorant Garamond', serif; 
+            overflow: hidden;
+        }
+
+        /* --- CONTENEUR DU TRIPTYQUE --- */
+        .gatefold-wrapper {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            perspective: 2000px;
+            cursor: pointer;
+            box-shadow: 0 15px 40px rgba(43, 65, 77, 0.25); 
+        }
+
+        /* --- PAGE CENTRALE (Le fond) --- */
+        .center-page {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-color: #ffffff;
+            box-sizing: border-box;
+            padding: 15px 15px; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            color: #3b505c; 
+            z-index: 1;
+            box-shadow: inset 0 0 40px rgba(0,0,0,0.04);
+        }
+
+        .center-page .names { 
+            margin: 0px 0; 
+            font-size: 28px; 
+            color: #638ca3; 
+            font-family: 'Great Vibes', cursive; 
+            font-weight: normal;
+            line-height: 1.1;
+        }
+        .center-page h3.date {
+            margin: 5px 0;
+            font-size: 18px;
+            color: #638ca3;
+            font-weight: 600;
+        }
+        .center-page hr { width: 60px; border: 0.5px solid #a3bccc; margin: 8px 0; }
+        .center-page p { margin: 4px 0; font-size: 15px; line-height: 1.2; }
+
+        /* --- LE CARTON D'INVITATION --- */
+        .insert-card {
+            position: absolute;
+            left: 9%; 
+            bottom: -35px; 
+            width: 82%; 
+            background-color: #ffffff; 
+            border: 1px solid #b5cadd; 
+            outline: 1px solid #b5cadd;
+            outline-offset: -5px;
+            padding: 20px 15px; 
+            box-sizing: border-box;
+            box-shadow: 0 12px 30px rgba(43, 65, 77, 0.2); 
+            z-index: 4; 
+            opacity: 0;
+            transform: translateY(30px) rotate(0deg);
+            transition: transform 0.8s ease-out, opacity 0.8s ease-out;
+            text-align: center;
+
+            cursor: grab;
+            touch-action: none; 
+            user-select: none;
+            pointer-events: none; 
+        }
+
+        .insert-card h4 { 
+            margin: 0 0 10px 0; 
+            font-size: 13px; 
+            color: #4a6b82; 
+            text-transform: uppercase; 
+            letter-spacing: 2px; 
+            font-weight: 600;
+        }
+        
+        .insert-card p { 
+            margin: 0; 
+            font-size: 15px; 
+            color: #556a77; 
+            font-style: italic; 
+            line-height: 1.3;
+        }
+
+        .gatefold-wrapper.open .insert-card {
+            opacity: 1;
+            transform: translateY(-25px) rotate(-1.5deg);
+            transition-delay: 0.6s;
+            pointer-events: auto;
+        }
+
+        .insert-card.dragging {
+            cursor: grabbing;
+            transition: none !important;
+            box-shadow: 0 18px 40px rgba(43, 65, 77, 0.3);
+        }
+
+        /* --- LES VOLETS (Portes) --- */
+        .flap {
+            position: absolute;
+            top: 0;
+            width: 50%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+            z-index: 3;
+        }
+
+        .left-flap { left: 0; transform-origin: left center; }
+        .right-flap { right: 0; transform-origin: right center; }
+
+        .gatefold-wrapper.open .left-flap { transform: rotateY(-180deg); }
+        .gatefold-wrapper.open .right-flap { transform: rotateY(180deg); }
+
+        /* --- DEVANT ET DOS DES VOLETS --- */
+        .flap-front, .flap-back {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            backface-visibility: hidden;
+            box-sizing: border-box;
+        }
+
+        .flap-front {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            background-image: url('./Chateau-Barbebelle.jpg');
+            background-size: 400px 400px;
+            background-repeat: no-repeat;
+        }
+
+        .left-flap .flap-front { background-position: left center; border-right: 1px solid rgba(255,255,255,0.2); }
+        .right-flap .flap-front { background-position: right center; }
+
+        /* Dégradé assombri et optimisé pour le contraste */
+        .flap-front::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(to bottom, rgba(15, 25, 35, 0.75) 0%, rgba(25, 40, 50, 0.5) 100%);
+            z-index: -1;
+        }
+
+        .left-flap .flap-front h1 { 
+            font-size: 44px; 
+            margin: 0; 
+            margin-left: 15px; 
+            font-family: 'Great Vibes', cursive;
+            font-weight: normal;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.85); 
+            line-height: 1.1;
+        }
+        
+        /* VOLET DROIT : VISIBILITÉ AMÉLIORÉE */
+        .right-flap .flap-front .cover-date { 
+            font-size: 26px; /* Agrandi */
+            font-family: 'Great Vibes', cursive; /* Rendu plus élégant et visible */
+            margin: 0; 
+            margin-right: 15px; 
+            letter-spacing: 1px; 
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.9); 
+            text-align: center;
+            color: #f0f4f8;
+        }
+        
+        .right-flap .flap-front .click-hint {
+            font-size: 12px;
+            font-style: italic;
+            letter-spacing: 1.5px;
+            color: #ffffff;
+            margin-top: 20px;
+            padding: 6px 14px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(4px);
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.8);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .flap-back {
+            background-color: #ffffff;
+            transform: rotateY(180deg);
+            padding: 15px;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            color: #3b505c;
+            border: 1px solid #e6edf2;
+        }
+        
+        .flap-back h3 { color: #638ca3; font-style: italic; font-size: 20px; margin-bottom: 10px; font-weight: normal; text-align: center; }
+        .flap-back p { font-size: 14px; margin: 2px 0; }
+        
+        .parents-text p { font-size: 13px; margin: 1px 0; }
+        .parents-text .spacer { height: 10px; }
+
+    </style>
+</head>
+<body>
+
+    <div class="gatefold-wrapper" id="invitation">
+        
+        <div class="center-page">
+            <p>sont heureux de vous faire part du mariage de leurs enfants</p>
+            <hr>
+            <h3 class="names">Mademoiselle Blandine Gautier<br> &amp; <br> Monsieur Thomas Jégat</h3>
+            <hr>
+            <p>Ils vous prient d'assister ou de vous unir par la prière à la messe de mariage qui sera célébrée le</p>
+            <h3 class="date">Samedi 5 juin 2027 à 15h00</h3>
+            <p>En l'église Notre-Dame de l’Assomption de Lambesc (13)</p>
+            <p>Le consentement des époux sera reçu par Monsieur l'abbé Arnaud Spriet, aumônier du lycée militaire d'Aix-en-Provence.</p>
+        </div>
+
+        <div class="insert-card" id="insertCard">
+            <p>recevront à l'issue de la cérémonie religieuse au domaine de Barbebelle (Rognes)</p>
+            <br>
+            <p><strong>Cocktail de 18h à 20h <br> Diner placé</strong></p>
+            <br>
+            <p>Réponse souhaitée avant le 20 avril</p>
+        </div>
+
+        <div class="flap left-flap">
+            <div class="flap-front">
+                <h1>Blandine<br>& Thomas</h1>
+            </div>
+            <div class="flap-back parents-text">
+                <p>Monsieur Hervé Gautier</p>
+                <p>Madame Valérie Cornuez</p>
+                <div class="spacer"></div>
+                <p>Adresse de Valoche</p>
+                <p>email de Valoche</p>
+                <div class="spacer"></div>
+                <hr style="width: 30px; border: 0.5px solid #a3bccc; margin: 10px auto;">
+                <div class="spacer"></div>
+                <p>Monsieur et Madame</p>
+                <p>Stéphane Jégat</p>
+                <div class="spacer"></div>
+                <p>9 allée du Tamisadou<br>13300 Salon-de-Provence</p>
+                <p>anne.jegat@orange.fr</p>
+            </div>
+        </div>
+
+        <div class="flap right-flap">
+            <div class="flap-front">
+                <p class="cover-date">5 Juin 2027</p>
+                <div class="click-hint">Cliquez pour ouvrir</div>
+            </div>
+            <div class="flap-back">
+                <h3>La Réception</h3>
+                <p><strong>18h00-20h00</strong></p>
+                <p>Cocktail</p>
+                <p><strong>20h00 - 22h30</strong></p>
+                <p>Dîner placé</p>
+                <p><strong>A partir de 22h30</strong></p>
+                <p>Soirée dansante</p>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const invitation = document.getElementById('invitation');
+        const card = document.getElementById('insertCard');
+
+        let isDragging = false;
+        let startX = 0, startY = 0, initialLeft = 0, initialTop = 0;
+
+        invitation.addEventListener('click', () => {
+            invitation.classList.toggle('open');
+
+            if (!invitation.classList.contains('open')) {
+                setTimeout(() => {
+                    card.style.left = '';
+                    card.style.top = '';
+                    card.style.bottom = '';
+                    card.style.transform = '';
+                }, 800);
+            }
+        });
+
+        card.addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+
+        card.addEventListener('pointerdown', (e) => {
+            if (!invitation.classList.contains('open')) return;
+
+            e.stopPropagation();
+            isDragging = true;
+
+            const rect = card.getBoundingClientRect();
+            const parentRect = card.offsetParent.getBoundingClientRect();
+
+            initialLeft = rect.left - parentRect.left;
+            initialTop = rect.top - parentRect.top;
+
+            card.style.left = initialLeft + 'px';
+            card.style.top = initialTop + 'px';
+            card.style.bottom = 'auto';
+            card.style.transform = 'rotate(-1.5deg)';
+
+            card.classList.add('dragging');
+
+            startX = e.clientX;
+            startY = e.clientY;
+            card.setPointerCapture(e.pointerId);
+        });
+
+        card.addEventListener('pointermove', (e) => {
+            if (!isDragging) return;
+
+            const dx = e.clientX - startX;
+            const dy = e.clientY - startY;
+
+            card.style.left = (initialLeft + dx) + 'px';
+            card.style.top = (initialTop + dy) + 'px';
+        });
+
+        card.addEventListener('pointerup', (e) => {
+            isDragging = false;
+            card.classList.remove('dragging');
+            card.releasePointerCapture(e.pointerId);
+        });
+    </script>
+
+</body>
+</html>
